@@ -7,9 +7,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 {
 
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
-
     
-
     public event EventHandler OnCut;
     
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
