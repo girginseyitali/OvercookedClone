@@ -1,15 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
    [SerializeField] private TextMeshProUGUI recipesDeliveredText;
-   
-   
+   [SerializeField] private Button mainMenuButton;
+   [SerializeField] private Button restartButton;
+
+   private void Awake()
+   {
+      mainMenuButton.onClick.AddListener(MainMenuButton);
+      restartButton.onClick.AddListener(RestartButton);
+   }
+
    private void Start()
    {
+      restartButton.Select();
       GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
       Hide();
    }
@@ -35,6 +45,16 @@ public class GameOverUI : MonoBehaviour
    private void Hide()
    {
       gameObject.SetActive(false);
+   }
+
+   private void MainMenuButton()
+   {
+      Loader.Load(Loader.Scene.MainMenuScene);
+   }
+
+   private void RestartButton()
+   {
+      Loader.Load(Loader.Scene.GameScene);
    }
 
 }
