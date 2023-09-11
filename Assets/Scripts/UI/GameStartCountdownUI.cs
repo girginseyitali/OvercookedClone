@@ -1,13 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEditor.Search;
 using UnityEngine;
 
 public class GameStartCountdownUI : MonoBehaviour
 {
+   private const string NUMBER_POPUP = "NumberPopUp";
    [SerializeField] private TextMeshProUGUI countdownText;
+   private Animator _animator;
+   private int previousCountdownNumber;
+
+   private void Awake()
+   {
+      _animator = GetComponent<Animator>();
+   }
 
    private void Start()
    {
@@ -29,7 +38,16 @@ public class GameStartCountdownUI : MonoBehaviour
 
    private void Update()
    {
-      countdownText.text = Mathf.Ceil(GameManager.Instance.GetCountdownToStartTimer()).ToString();
+      int countdownNumber = Mathf.CeilToInt(GameManager.Instance.GetCountdownToStartTimer());
+      
+      countdownText.text = countdownNumber.ToString();
+
+      if (previousCountdownNumber != countdownNumber)
+      {
+         previousCountdownNumber = countdownNumber;
+         _animator.SetTrigger(NUMBER_POPUP);
+         SoundManager.Instance.PlayCountdownSound();
+      }
    }
 
    private void Show()
